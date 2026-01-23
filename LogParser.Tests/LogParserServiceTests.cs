@@ -48,5 +48,33 @@ namespace LogParser.Tests
             Assert.Equal("/a", result.TopUrls.First());
             Assert.Equal("1.1.1.1", result.TopIpAddresses.First());
         }
+
+        [Fact]
+        public void ParseLine_WithTrailingJunk_StillParsesIpAndUrl()
+        {
+            var lines = new[]
+            {
+                @"72.44.32.10 - - [09/Jul/2018:15:48:07 +0200] ""GET / HTTP/1.1"" 200 3574 ""-"" ""UA"" junk extra"
+            };
+
+            var result = service.Analyze(lines);
+
+            Assert.NotNull(result);
+            Assert.Equal(1, result.UniqueIpCount);
+            Assert.Equal("72.44.32.10", result.TopIpAddresses.Single());
+            Assert.Equal("/", result.TopUrls.Single());
+        }
+
+        [Fact]
+        public void ParseLine_CompletelyInvalid_ReturnsNull()
+        {
+            var lines = new[] { "this is not a log line" };
+
+            var result = service.Analyze(lines);
+
+            Assert.Equal(0, result.UniqueIpCount);
+            Assert.Empty(result.TopUrls);
+            Assert.Empty(result.TopIpAddresses);
+        }
     }
 }
