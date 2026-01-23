@@ -50,6 +50,7 @@ Example response:
 
 * Validates required inputs (file presence, empty file)
 * Malformed log lines are skipped
+* Log lines may contain additional trailing data which is ignored
 * Unexpected errors rely on ASP.NET Core’s default exception handling
 
 ---
