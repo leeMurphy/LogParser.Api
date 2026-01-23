@@ -67,6 +67,6 @@ Example response:
 ## Testing
 
 * Unit tests target the **parser service**
-* Tests cover empty input, single entry, and ranking logic
+* Tests cover empty input, single entry, ranking logic and line parsing
 
 ---
